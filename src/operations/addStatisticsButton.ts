@@ -4,7 +4,7 @@ import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { IUserResponse } from '~src/interfaces/user-response/IUserResponse';
 import { serialize } from '~src/helpers/serialize';
 import '~src/helpers/difference';
-import { log } from 'userscripter';
+import { ImageService } from '~src/services/ImageService';
 
 const FOLLOWERS_HASH = 'c76146de99bb02f6415203be841dd25a';
 const FOLLOWING_HASH = 'd04b0a864b4b54837c0d870b0e77e076';
@@ -152,12 +152,12 @@ function followingCountSelector(userDataResponse: IUserResponse) {
   return userData.edge_follow.count;
 }
 
-function createBotControlButton(): [HTMLDivElement, HTMLButtonElement, string, string] {
+function createBotControlButton(): [HTMLDivElement, HTMLDivElement, string, string] {
   const buttonContainer = document.createElement('div');
   const headerControlButtonClass = 'Fifk5';
   buttonContainer.classList.add(headerControlButtonClass);
-  const button = document.createElement('button');
-  button.innerText = 'bot';
+  const button = document.createElement('div');
+  button.innerHTML = ImageService.people;
   button.id = 'bot-control-button';
   buttonContainer.appendChild(button);
   return [buttonContainer, button, 'enabled', 'disabled'];

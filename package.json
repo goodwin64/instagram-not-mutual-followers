@@ -4,7 +4,7 @@
     "build-webpack-config": "tsc -p tsconfig.webpack.json",
     "build-userscript": "webpack --config .userscripter-temp/webpack.config.js",
     "build": "npm run clean && npm run build-webpack-config && npm run build-userscript && npm run clean",
-    "clean": "rimraf .userscripter-temp"
+    "clean": "rimraf .userscripter-temp .awcache"
   },
   "dependencies": {
     "@typed/compose": "^1.0.0",
