@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "0.1.1",
   "scripts": {
     "build-webpack-config": "tsc -p tsconfig.webpack.json",
     "build-userscript": "webpack --config .userscripter-temp/webpack.config.js",
