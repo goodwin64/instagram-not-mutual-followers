@@ -3,7 +3,6 @@ import { IEdgesResponse } from '~src/interfaces/edges-response/IEdgesResponse';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { IUserResponse } from '~src/interfaces/user-response/IUserResponse';
 import { serialize } from '~src/helpers/serialize';
-import '~src/helpers/difference';
 import { ImageService } from '~src/services/ImageService';
 
 const FOLLOWERS_HASH = 'c76146de99bb02f6415203be841dd25a';
@@ -214,15 +213,13 @@ function pageEndFromResponseSelector(
 }
 
 function logResults(
-  s1: Set<string> | Array<string>,
-  s2: Set<string> | Array<string>,
+  followers: Array<string>,
+  following: Array<string>,
 ) {
-  s1 = Array.isArray(s1) ? new Set(s1) : s1;
-  s2 = Array.isArray(s2) ? new Set(s2) : s2;
+  const s1 = new Set(followers);
+  const s2 = new Set(following);
 
-  // @ts-ignore
   const onlyTheyFollowMe = [...s1.difference(s2)];
-  // @ts-ignore
   const onlyIFollowThem = [...s2.difference(s1)];
 
   console.log('onlyTheyFollowMe (you ignore them):', onlyTheyFollowMe);

@@ -6,6 +6,7 @@ import OPERATIONS from "~src/operations";
 import * as SITE from "~src/site";
 import STYLESHEETS from "~src/stylesheets";
 import U from "~src/userscript";
+import '~src/declared-ts-modules/Set';
 
 const describeFailure = errors.failureDescriber({
     siteName: SITE.NAME,
