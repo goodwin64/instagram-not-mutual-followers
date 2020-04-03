@@ -1,3 +1,5 @@
+import * as pkg from '../../package.json';
+
 import { IUser } from '~src/interfaces/IUser';
 import { IEdgesResponse } from '~src/interfaces/edges-response/IEdgesResponse';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
@@ -158,6 +160,7 @@ function createBotControlButton(): [HTMLDivElement, HTMLDivElement, string, stri
   const button = document.createElement('div');
   button.innerHTML = ImageService.people;
   button.id = 'bot-control-button';
+  button.setAttribute('aria-label', pkg.name);
   buttonContainer.appendChild(button);
   return [buttonContainer, button, 'enabled', 'disabled'];
 }

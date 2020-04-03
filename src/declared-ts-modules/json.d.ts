@@ -1,6 +1,4 @@
 declare module '*.json' {
-  const content: {
-    version: string;
-  };
+  const content: any;
   export default content;
 }
