@@ -14,6 +14,6 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Has been set in travis-ci.org dashboard; secure
   keep-history: true
-  local_dir: build
+  local_dir: dist
   on:
     branch: master
