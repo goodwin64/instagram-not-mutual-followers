@@ -2,7 +2,9 @@ import React from 'react';
 import './App.css';
 import { Button, Dialog, DialogContent, DialogTitle, Typography } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
+
 import userScript from './userscript';
+import { Copyright } from './components/Copyright/Copyright';
 
 function HelperButton() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -16,12 +18,13 @@ function HelperButton() {
       </Button>
 
       <Dialog open={isModalOpen} onClose={closeModal} maxWidth={'md'}>
-        <DialogTitle>
-          <Typography variant={'h3'}>{userScript.name}</Typography>
+        <DialogTitle disableTypography>
+          <Typography variant={'h3'}>
+            {userScript.name}
+          </Typography>
         </DialogTitle>
         <DialogContent>
-          <Typography variant={'h4'}>{userScript.description}</Typography>
-          <Typography variant={'body2'}>Version: {userScript.version}</Typography>
+          <Copyright/>
         </DialogContent>
       </Dialog>
     </div>

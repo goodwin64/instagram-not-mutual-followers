@@ -19,9 +19,7 @@ function renderBotButton() {
   controlPanelContainer.insertBefore(placeToRenderHelperButton, controlPanelContainer.firstChild);
 
   ReactDOM.render(
-    <React.StrictMode>
-      <HelperButton />
-    </React.StrictMode>,
+    <HelperButton />,
     placeToRenderHelperButton,
   );
 }

@@ -120,14 +120,14 @@ async function retrieveAllEdges(
   let result: IEdgeNode[] = [];
   const firstSliceResponse = await retrieveEdgesSlice(userId, isFollowers);
   let edges = edgesListFromResponseSelector(firstSliceResponse);
-  let [hasNextPage, pageEnd] = pageEndFromResponseSelector(firstSliceResponse);
+  let [, pageEnd] = pageEndFromResponseSelector(firstSliceResponse);
   result = result.concat(edges);
 
   while (result.length < totalEdgesCount) {
     console.log(result.length / totalEdgesCount);
     const nextSliceResponse = await retrieveEdgesSlice(userId, isFollowers, 49, pageEnd);
     edges = edgesListFromResponseSelector(nextSliceResponse);
-    [hasNextPage, pageEnd] = pageEndFromResponseSelector(nextSliceResponse);
+    [, pageEnd] = pageEndFromResponseSelector(nextSliceResponse);
     result = result.concat(edges);
   }
 
