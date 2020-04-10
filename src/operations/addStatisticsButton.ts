@@ -10,7 +10,7 @@ import { ImageService } from '../services/ImageService';
 const FOLLOWERS_HASH = 'c76146de99bb02f6415203be841dd25a';
 const FOLLOWING_HASH = 'd04b0a864b4b54837c0d870b0e77e076';
 
-const selectors = {
+export const selectors = {
   followersLink: '[href*="/followers/"]',
   followingLink: '[href*="/following/"]',
   instagramUsername: '.FPmhX',

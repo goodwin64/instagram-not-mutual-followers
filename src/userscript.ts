@@ -1,6 +1,6 @@
 import pkg from '../package.json';
 
-export default {
+const userScript = {
     id: pkg.name,
     name: "Instagram: not mutual followers",
     version: pkg.version,
@@ -11,4 +11,6 @@ export default {
     namespace: "instagram.com",
     runAt: "document-start",
     match: 'https://www.instagram.com/*'
-} as const;
+};
+
+export default userScript;
