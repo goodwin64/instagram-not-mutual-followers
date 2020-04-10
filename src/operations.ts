@@ -1,5 +1,5 @@
 import { Operation, operation } from "userscripter/lib/operations";
-import { addStatisticsButton } from '~src/operations/addStatisticsButton';
+import { addStatisticsButton } from './operations/addStatisticsButton';
 
 const OPERATIONS: ReadonlyArray<Operation<any>> = [
   operation({

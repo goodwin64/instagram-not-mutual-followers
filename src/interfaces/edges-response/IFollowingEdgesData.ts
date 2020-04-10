@@ -1,4 +1,4 @@
-import { IEdge } from '~src/interfaces/edges-response/IEdge';
+import { IEdge } from './IEdge';
 
 export interface IFollowingEdgesData {
   edge_follow: {

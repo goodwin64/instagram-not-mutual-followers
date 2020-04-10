@@ -1,4 +1,4 @@
-import { IEdge } from '~src/interfaces/user-response/IEdge';
+import { IEdge } from './IEdge';
 
 export interface IUserResponse {
   'logging_page_id': string;

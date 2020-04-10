@@ -1,12 +1,12 @@
 import { compose } from "@typed/compose";
 import { environment, errors, log, userscripter } from "userscripter";
 
-import * as CONFIG from "~src/config";
-import OPERATIONS from "~src/operations";
-import * as SITE from "~src/site";
-import STYLESHEETS from "~src/stylesheets";
-import U from "~src/userscript";
-import '~src/declared-ts-modules/Set';
+import * as CONFIG from "./config";
+import OPERATIONS from "./operations";
+import * as SITE from "./site";
+import STYLESHEETS from "./stylesheets";
+import U from "./userscript";
+import './declared-ts-modules/Set';
 
 const describeFailure = errors.failureDescriber({
     siteName: SITE.NAME,
@@ -14,16 +14,18 @@ const describeFailure = errors.failureDescriber({
     location: document.location,
 });
 
-userscripter.run({
-    id: U.id,
-    name: U.name,
-    initialAction: () => log.log(`${U.name} ${U.version}`),
-    stylesheets: STYLESHEETS,
-    operationsPlan: {
-        operations: OPERATIONS,
-        interval: CONFIG.OPERATIONS_INTERVAL,
-        tryUntil: environment.DOMCONTENTLOADED,
-        extraTries: CONFIG.OPERATIONS_EXTRA_TRIES,
-        handleFailures: failures => failures.forEach(compose(log.error, describeFailure)),
-    },
-});
+export function buildUserscript() {
+    userscripter.run({
+        id: U.id,
+        name: U.name,
+        initialAction: () => log.log(`${U.name} ${U.version}`),
+        stylesheets: STYLESHEETS,
+        operationsPlan: {
+            operations: OPERATIONS,
+            interval: CONFIG.OPERATIONS_INTERVAL,
+            tryUntil: environment.DOMCONTENTLOADED,
+            extraTries: CONFIG.OPERATIONS_EXTRA_TRIES,
+            handleFailures: failures => failures.forEach(compose(log.error, describeFailure)),
+        },
+    });
+}

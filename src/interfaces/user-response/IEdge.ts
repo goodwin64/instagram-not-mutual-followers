@@ -1,4 +1,4 @@
-import { IEdgeNode } from '~src/interfaces/user-response/IEdgeNode';
+import { IEdgeNode } from './IEdgeNode';
 
 export interface IEdge {
   node: IEdgeNode;

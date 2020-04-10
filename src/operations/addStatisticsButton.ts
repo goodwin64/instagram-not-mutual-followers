@@ -1,11 +1,11 @@
 import * as pkg from '../../package.json';
 
-import { IUser } from '~src/interfaces/IUser';
-import { IEdgesResponse } from '~src/interfaces/edges-response/IEdgesResponse';
-import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
-import { IUserResponse } from '~src/interfaces/user-response/IUserResponse';
-import { serialize } from '~src/helpers/serialize';
-import { ImageService } from '~src/services/ImageService';
+import { IUser } from '../interfaces/IUser';
+import { IEdgesResponse } from '../interfaces/edges-response/IEdgesResponse';
+import { IEdgeNode } from '../interfaces/edges-response/IEdgeNode';
+import { IUserResponse } from '../interfaces/user-response/IUserResponse';
+import { serialize } from '../helpers/serialize';
+import { ImageService } from '../services/ImageService';
 
 const FOLLOWERS_HASH = 'c76146de99bb02f6415203be841dd25a';
 const FOLLOWING_HASH = 'd04b0a864b4b54837c0d870b0e77e076';
@@ -222,8 +222,8 @@ function logResults(
   const s1 = new Set(followers);
   const s2 = new Set(following);
 
-  const onlyTheyFollowMe = [...s1.difference(s2)];
-  const onlyIFollowThem = [...s2.difference(s1)];
+  const onlyTheyFollowMe = Array.from(s1.difference(s2));
+  const onlyIFollowThem = Array.from(s2.difference(s1));
 
   console.log('onlyTheyFollowMe (you ignore them):', onlyTheyFollowMe);
   console.log('onlyIFollowThem (fucking bastards):', onlyIFollowThem);
@@ -234,5 +234,6 @@ function usernameFromUserSelector(user: IUser) {
 }
 
 export function addStatisticsButton() {
-  setInterval(addBotControlButton, 1000);
+  console.log('addStatisticsButton');
+  addBotControlButton();
 }

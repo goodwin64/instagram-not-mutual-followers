@@ -10,23 +10,40 @@
     "url": "https://www.linkedin.com/in/max-donchenko-792a60b8/"
   },
   "scripts": {
-    "build-webpack-config": "tsc -p tsconfig.webpack.json",
-    "build-userscript": "webpack --config .userscripter-temp/webpack.config.js",
-    "build": "npm run clean && npm run build-webpack-config && npm run build-userscript && npm run clean",
-    "clean": "rimraf .userscripter-temp .awcache"
+    "build": "react-scripts build && npm run clean",
+    "clean": "rimraf .userscripter-temp .awcache",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
     "@typed/compose": "^1.0.0",
-    "@types/app-root-path": "^1.2.4",
-    "app-root-path": "^3.0.0",
-    "ts-preferences": "^2.0.0",
-    "typescript": "^3.7.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "typescript": "~3.7.2",
     "userscript-metadata": "^1.0.0",
-    "userscripter": "^1.3.2",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "userscripter": "^1.3.2"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.0",
     "rimraf": "^3.0.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
