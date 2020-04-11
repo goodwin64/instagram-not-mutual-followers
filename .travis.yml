@@ -16,4 +16,4 @@ deploy:
   keep-history: true
   local_dir: dist
   on:
-    branch: master
+    branch: develop
