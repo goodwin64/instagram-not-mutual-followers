@@ -50,7 +50,7 @@ function createBot() {
 }
 
 async function collectEdges() {
-  const RE_INSTA_URL = /instagram\.com\/(?<nickname>[A-Za-z_.]*)\/.*/;
+  const RE_INSTA_URL = /instagram\.com\/(?<nickname>[A-Za-z0-9_.]*)\/.*/;
   const match = RE_INSTA_URL.exec(window.location.href);
   if (!match || !match.groups) {
     console.error('no username detected from URL');
