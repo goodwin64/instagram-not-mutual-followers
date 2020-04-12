@@ -8,7 +8,6 @@ import STYLESHEETS from "~src/stylesheets";
 import U from "~src/userscript";
 import '~src/declared-ts-modules/Set';
 
-// test
 const describeFailure = errors.failureDescriber({
     siteName: SITE.NAME,
     extensionName: U.name,
