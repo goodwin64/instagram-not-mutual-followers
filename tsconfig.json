@@ -2,7 +2,8 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "~src/*": [ "./src/*" ]
+            "~src/*": [ "./src/*" ],
+            "~pkg": ["./package.json"]
         },
         "target": "es6",
         "strict": true,
@@ -16,8 +17,7 @@
             "esnext",
             "dom"
         ],
-        "jsx": "react",
-        "jsxFactory": "h"
+        "jsx": "react"
     },
     "include": [
         "./src/*.d.ts",
