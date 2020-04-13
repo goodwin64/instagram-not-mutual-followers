@@ -16,6 +16,8 @@
     "clean": "rimraf .userscripter-temp .awcache"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.10",
+    "@material-ui/icons": "^4.9.1",
     "@typed/compose": "^1.0.0",
     "@types/app-root-path": "^1.2.4",
     "app-root-path": "^3.0.0",
