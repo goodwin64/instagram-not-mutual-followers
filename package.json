@@ -2,7 +2,7 @@
   "name": "instagram-not-mutual-followers",
   "description": "With this script you will detect which people you follow do not follow you mutually. And vice-versa, which your followers don't you follow.",
   "private": true,
-  "version": "0.1.5",
+  "version": "0.1.7",
   "repository": "https://github.com/goodwin64/instagram-not-mutual-followers",
   "author": {
     "name": "Max Donchenko",
@@ -16,9 +16,12 @@
     "clean": "rimraf .userscripter-temp .awcache"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.10",
+    "@material-ui/icons": "^4.9.1",
     "@typed/compose": "^1.0.0",
     "@types/app-root-path": "^1.2.4",
     "app-root-path": "^3.0.0",
+    "preact": "^10.4.0",
     "ts-preferences": "^2.0.0",
     "typescript": "^3.7.4",
     "userscript-metadata": "^1.0.0",
@@ -27,6 +30,8 @@
     "webpack-cli": "^3.3.10"
   },
   "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
     "rimraf": "^3.0.2"
   }
 }

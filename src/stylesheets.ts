@@ -2,6 +2,7 @@ import { ALWAYS } from "userscripter/lib/environment";
 import { Stylesheets, stylesheet } from "userscripter/lib/stylesheets";
 
 import mutualFollowersBotStyles from './styles/mutualFollowersBotStyles.scss';
+import resultsEdgesStyles from './components/ResultsEdges/ResultsEdges.scss';
 
 const STYLESHEETS = {
     main: stylesheet({
@@ -10,8 +11,8 @@ const STYLESHEETS = {
     }),
     mutualFollowersBot: stylesheet({
         condition: ALWAYS,
-        css: mutualFollowersBotStyles,
-    })
+        css: mutualFollowersBotStyles + resultsEdgesStyles,
+    }),
 } as const;
 
 // This trick uncovers type errors in STYLESHEETS while retaining the static knowledge of its properties (so we can still write e.g. STYLESHEETS.foo):
