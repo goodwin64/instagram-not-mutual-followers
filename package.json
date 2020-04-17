@@ -2,7 +2,7 @@
   "name": "instagram-not-mutual-followers",
   "description": "With this script you will detect which people you follow do not follow you mutually. And vice-versa, which your followers don't you follow.",
   "private": true,
-  "version": "0.1.6",
+  "version": "0.1.7",
   "repository": "https://github.com/goodwin64/instagram-not-mutual-followers",
   "author": {
     "name": "Max Donchenko",
