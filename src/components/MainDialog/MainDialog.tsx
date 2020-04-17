@@ -3,7 +3,7 @@ import { h } from "preact";
 import * as pkg from "~pkg";
 import {collectEdges} from "~src/services/ApiService";
 import {IUser} from "~src/interfaces/IUser";
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { ResultsEdges } from '~src/components/ResultsEdges/ResultsEdges';
 
 export function usernameFromUserSelector(user: IUser) {
@@ -38,6 +38,11 @@ export function MainDialog(props: Props) {
     const [followers, setFollowers] = useState<string[]>([]);
     const [following, setFollowing] = useState<string[]>([]);
 
+    useEffect(() => {
+      setFollowers([]);
+      setFollowing([]);
+    }, [props.open, setFollowers, setFollowing]);
+
     const startBot = () => {
         setIsRunning(true);
         bot.startBot()
@@ -48,10 +53,17 @@ export function MainDialog(props: Props) {
             });
     };
 
+    useEffect(() => {
+      return () => {
+        setFollowers([]);
+        setFollowing([]);
+      }
+    }, [setFollowers, setFollowing]);
+
     return (
         <Dialog open={props.open} onClose={props.onDialogClose} maxWidth={'lg'} fullWidth>
             <DialogTitle>{pkg.name}</DialogTitle>
-            <DialogContent>
+            <DialogContent style={{ alignItems: 'center' }}>
                 <Button
                     variant={'outlined'}
                     color={'primary'}
