@@ -8,11 +8,12 @@ export function App() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const onDialogToggle = () => setIsDialogOpen(!isDialogOpen);
+    const onDialogClose = () => setIsDialogOpen(false);
 
     return (
         <div>
             <OpenModalButton onDialogToggle={onDialogToggle}/>
-            <MainDialog open={isDialogOpen}/>
+            <MainDialog open={isDialogOpen} onDialogClose={onDialogClose} />
         </div>
     )
 }

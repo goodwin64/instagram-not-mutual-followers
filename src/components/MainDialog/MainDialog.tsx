@@ -40,6 +40,7 @@ export function createBot() {
 
 interface Props {
     open: boolean;
+    onDialogClose: () => void;
 }
 
 const bot = createBot();
@@ -57,7 +58,7 @@ export function MainDialog(props: Props) {
     };
 
     return (
-        <Dialog open={props.open}>
+        <Dialog open={props.open} onClose={props.onDialogClose}>
             <DialogTitle>{pkg.name}</DialogTitle>
             <DialogContent>
                 <Button
