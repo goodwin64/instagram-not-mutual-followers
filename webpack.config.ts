@@ -10,7 +10,7 @@ import * as CONFIG from "./src/config";
 import * as SITE from "./src/site";
 import U from "./src/userscript";
 
-export default createWebpackConfig({
+const webpackConfig = createWebpackConfig({
     buildConfig: {
         ...DEFAULT_BUILD_CONFIG({
             rootDir: AppRootPath.path,
@@ -23,3 +23,15 @@ export default createWebpackConfig({
     metadataSchema: DEFAULT_METADATA_SCHEMA,
     env: process.env,
 });
+
+webpackConfig.resolve = {
+    ...webpackConfig.resolve,
+    alias: {
+        ...(webpackConfig.resolve && webpackConfig.resolve.alias),
+        "react": "preact/compat",
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat",
+    }
+};
+
+export default webpackConfig;

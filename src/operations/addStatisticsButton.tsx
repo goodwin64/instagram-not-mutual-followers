@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { h, render } from 'preact';
 import {App} from "~src/App";
 
 export const selectors = {
@@ -28,7 +27,7 @@ export function addBotControlButton() {
   if (!controlPanel) return;
 
   controlPanel.insertBefore(buttonContainer, controlPanel.firstChild);
-  ReactDOM.render(
+  render(
       <App/>,
       buttonContainer
   );

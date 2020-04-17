@@ -1,8 +1,9 @@
 import {Button, Dialog, DialogContent, DialogTitle, LinearProgress, Typography} from "@material-ui/core";
-import React from "react";
+import { h } from "preact";
 import * as pkg from "~pkg";
 import {collectEdges} from "~src/services/ApiService";
 import {IUser} from "~src/interfaces/IUser";
+import { useState } from 'preact/hooks';
 
 export function logResults(
     followers: Array<string>,
@@ -44,7 +45,7 @@ interface Props {
 const bot = createBot();
 
 export function MainDialog(props: Props) {
-    const [isRunning, setIsRunning] = React.useState(false);
+    const [isRunning, setIsRunning] = useState(false);
     const startBot = () => {
         setIsRunning(true);
         bot.startBot()

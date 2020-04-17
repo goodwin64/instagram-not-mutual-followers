@@ -1,4 +1,4 @@
-import React from "react";
+import { h } from "preact";
 import {ImageService} from "~src/services/ImageService";
 import * as pkg from '~pkg';
 

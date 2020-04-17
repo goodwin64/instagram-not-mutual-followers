@@ -17,7 +17,8 @@
             "esnext",
             "dom"
         ],
-        "jsx": "react"
+        "jsx": "react",
+        "jsxFactory": "h"
     },
     "include": [
         "./src/*.d.ts",
