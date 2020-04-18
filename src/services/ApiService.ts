@@ -1,8 +1,9 @@
-import {IEdgeNode} from "~src/interfaces/edges-response/IEdgeNode";
-import {IUserResponse} from "~src/interfaces/user-response/IUserResponse";
-import {serialize} from "~src/helpers/serialize";
-import {IEdgesResponse} from "~src/interfaces/edges-response/IEdgesResponse";
+import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
+import { IUserResponse } from '~src/interfaces/user-response/IUserResponse';
+import { serialize } from '~src/helpers/serialize';
+import { IEdgesResponse } from '~src/interfaces/edges-response/IEdgesResponse';
 import { currentUserUsernameSelector } from '~src/selectors/currentUser';
+import { getCookie } from '~src/helpers/getCookie';
 
 export const FOLLOWERS_HASH = 'c76146de99bb02f6415203be841dd25a';
 export const FOLLOWING_HASH = 'd04b0a864b4b54837c0d870b0e77e076';
@@ -128,4 +129,22 @@ export function pageEndFromResponseSelector(
         ? [pageInfo.has_next_page, pageInfo.end_cursor]
         : [false, undefined]
         ;
+}
+
+export function unfollowUser(id: string) {
+    const url = `https://www.instagram.com/web/friendships/${id}/unfollow/`;
+    const csrftoken = getCookie('csrftoken') || '';
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'x-csrftoken': csrftoken,
+        },
+    });
+}
+
+export function followUser(id: string) {
+    const url = `https://www.instagram.com/web/friendships/${id}/follow/`;
+    return fetch(url, {
+        method: 'POST',
+    });
 }

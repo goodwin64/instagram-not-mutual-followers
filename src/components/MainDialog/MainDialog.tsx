@@ -7,6 +7,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { currentUserUsernameSelector } from '~src/selectors/currentUser';
 import { NoUserDetected } from '~src/components/NoUserDetected/NoUserDetected';
 import { UserAnalyzer } from '~src/components/UserAnalyzer/UserAnalyzer';
+import { collectUsernameToUserMap } from '~src/helpers/collectUsernameToUserMap';
 
 export function usernameFromUserSelector(user: IUser) {
     return user.username;
@@ -17,10 +18,13 @@ export function createBot() {
         startBot: () => {
             return Promise.resolve(collectEdges())
                 .then(data => data || [])
-                .then(([followers, following]) => [
-                    followers.map(usernameFromUserSelector),
-                    following.map(usernameFromUserSelector),
-                ]);
+                .then(([followers, following]) => {
+                    return {
+                        followers: followers.map(usernameFromUserSelector),
+                        following: following.map(usernameFromUserSelector),
+                        usernameToUser: collectUsernameToUserMap(followers, following),
+                    }
+                });
         },
     };
 
