@@ -13,7 +13,10 @@ export function App() {
     return (
         <div>
             <OpenModalButton onDialogToggle={onDialogToggle}/>
-            <MainDialog open={isDialogOpen} onDialogClose={onDialogClose} />
+            <MainDialog
+              open={isDialogOpen}
+              onDialogClose={onDialogClose}
+            />
         </div>
     )
 }

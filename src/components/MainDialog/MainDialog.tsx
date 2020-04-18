@@ -1,10 +1,13 @@
-import {Button, Dialog, DialogContent, DialogTitle, LinearProgress, Typography} from "@material-ui/core";
+import {Dialog, DialogContent, DialogTitle, Typography} from "@material-ui/core";
 import { h } from "preact";
 import * as pkg from "~pkg";
 import {collectEdges} from "~src/services/ApiService";
 import {IUser} from "~src/interfaces/IUser";
-import { useState } from 'preact/hooks';
-import { ResultsEdges } from '~src/components/ResultsEdges/ResultsEdges';
+import { useEffect, useState } from 'preact/hooks';
+import { currentUserUsernameSelector } from '~src/selectors/currentUser';
+import { NoUserDetected } from '~src/components/NoUserDetected/NoUserDetected';
+import { UserAnalyzer } from '~src/components/UserAnalyzer/UserAnalyzer';
+import { collectUsernameToUserMap } from '~src/helpers/collectUsernameToUserMap';
 
 export function usernameFromUserSelector(user: IUser) {
     return user.username;
@@ -15,63 +18,51 @@ export function createBot() {
         startBot: () => {
             return Promise.resolve(collectEdges())
                 .then(data => data || [])
-                .then(([followers, following]) => [
-                    followers.map(usernameFromUserSelector),
-                    following.map(usernameFromUserSelector),
-                ]);
+                .then(([followers, following]) => {
+                    return {
+                        followers: followers.map(usernameFromUserSelector),
+                        following: following.map(usernameFromUserSelector),
+                        usernameToUser: collectUsernameToUserMap(followers, following),
+                    }
+                });
         },
     };
 
     return api;
 }
 
+export const bot = createBot();
+
 interface Props {
     open: boolean;
     onDialogClose: () => void;
 }
 
-const bot = createBot();
-
 export function MainDialog(props: Props) {
-    const [isRunning, setIsRunning] = useState(false);
+    const [currentUserUsername, setCurrentUserUsername] = useState('');
 
-    const [followers, setFollowers] = useState<string[]>([]);
-    const [following, setFollowing] = useState<string[]>([]);
-
-    const startBot = () => {
-        setIsRunning(true);
-        bot.startBot()
-            .then(([followers, following]) => {
-                setFollowers(followers);
-                setFollowing(following);
-                setIsRunning(false);
-            });
-    };
+    useEffect(() => {
+      setCurrentUserUsername(currentUserUsernameSelector() || '');
+    }, [props.open]);
 
     return (
-        <Dialog open={props.open} onClose={props.onDialogClose} maxWidth={'lg'} fullWidth>
+        <Dialog
+          open={props.open}
+          onClose={props.onDialogClose}
+          maxWidth={'lg'}
+          fullWidth
+        >
             <DialogTitle>{pkg.name}</DialogTitle>
-            <DialogContent>
-                <Button
-                    variant={'outlined'}
-                    color={'primary'}
-                    onClick={startBot}
-                    disabled={isRunning}
-                    fullWidth={false}
-                >
-                    Start
-                </Button>
-
-                {
-                    isRunning && <LinearProgress/>
-                }
-
-                <ResultsEdges
-                  followers={followers}
-                  following={following}
-                />
+            <DialogContent
+              style={{ alignItems: 'center' }}
+            >
+              {
+                currentUserUsername
+                  ? <UserAnalyzer username={currentUserUsername} />
+                  : <NoUserDetected/>
+              }
+              <Typography variant={'body2'}>Version: {pkg.version}</Typography>
             </DialogContent>
-            <Typography variant={'body2'}>Version: {pkg.version}</Typography>
         </Dialog>
     );
 }
