@@ -1,4 +1,7 @@
-import {Dialog, DialogContent, DialogTitle, Typography} from "@material-ui/core";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
 import { h } from "preact";
 import * as pkg from "~pkg";
 import {collectEdges} from "~src/services/ApiService";
