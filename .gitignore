@@ -1,3 +1,6 @@
 .idea
 node_modules
 dist
+.awcache
+.userscripter-temp
+compilation-stats.json
