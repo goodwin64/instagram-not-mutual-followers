@@ -6,9 +6,11 @@ import { useState } from 'preact/hooks';
 import React from 'preact/compat';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import { getUsersOnlyIFollowThem, getUsersOnlyTheyFollowMe } from '~src/helpers/edgeHelpers';
-import { Button, Grid, ListItemText } from '@material-ui/core';
 import { unfollowUser} from '~src/services/ApiService';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { userIdFromEdgeSelector } from '~src/selectors/edgeSelectors';

@@ -1,5 +1,7 @@
 import { h } from 'preact';
-import { Button, LinearProgress, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
 
 import { ResultsEdges } from '~src/components/ResultsEdges/ResultsEdges';
 import { useEffect, useState } from 'preact/hooks';
