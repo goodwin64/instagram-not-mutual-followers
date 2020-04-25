@@ -4,11 +4,12 @@ import { serialize } from '~src/helpers/serialize';
 import { IEdgesResponse } from '~src/interfaces/edges-response/IEdgesResponse';
 import { currentUserUsernameSelector } from '~src/selectors/currentUser';
 import { getCookie } from '~src/helpers/getCookie';
+import { SetProgress } from '~src/interfaces/setProgress';
 
 export const FOLLOWERS_HASH = 'c76146de99bb02f6415203be841dd25a';
 export const FOLLOWING_HASH = 'd04b0a864b4b54837c0d870b0e77e076';
 
-export async function collectEdges() {
+export async function collectEdges(setProgress: SetProgress) {
     const visibleUserNickname = currentUserUsernameSelector();
     if (!visibleUserNickname) {
         console.error('no username detected from URL');
@@ -22,9 +23,10 @@ export async function collectEdges() {
         followingCountSelector(userDataResponse),
     ];
 
+    const progress = { operated: 0, total: followersCount + followingCount };
     const [collectedFollowers, collectedFollowing] = await Promise.all([
-        retrieveAllEdges(userId, followersCount, true),
-        retrieveAllEdges(userId, followingCount, false),
+        retrieveAllEdges(userId, followersCount, setProgress, progress, true),
+        retrieveAllEdges(userId, followingCount, setProgress, progress, false),
     ]);
 
     return [collectedFollowers, collectedFollowing];
@@ -68,6 +70,8 @@ export function retrieveEdgesSlice(
 async function retrieveAllEdges(
     userId: string,
     totalEdgesCount: number,
+    setProgress: SetProgress,
+    progress: { operated: number, total: number },
     isFollowers?: boolean,
 ) {
     let result: IEdgeNode[] = [];
@@ -75,13 +79,16 @@ async function retrieveAllEdges(
     let edges = edgesListFromResponseSelector(firstSliceResponse);
     let [hasNextPage, pageEnd] = pageEndFromResponseSelector(firstSliceResponse);
     result = result.concat(edges);
+    progress.operated += edges.length;
+    setProgress(progress.operated / progress.total);
 
     while (result.length < totalEdgesCount) {
-        console.log(result.length / totalEdgesCount);
         const nextSliceResponse = await retrieveEdgesSlice(userId, isFollowers, 49, pageEnd);
         edges = edgesListFromResponseSelector(nextSliceResponse);
         [hasNextPage, pageEnd] = pageEndFromResponseSelector(nextSliceResponse);
         result = result.concat(edges);
+        progress.operated += edges.length;
+        setProgress(progress.operated / progress.total);
     }
 
     return result;
