@@ -14,6 +14,7 @@ interface Props {
 
 export function UserAnalyzer(props: Props) {
   const [isRunning, setIsRunning] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const [localCache, setLocalCache] = useState<{
     followers: string[];
@@ -26,6 +27,12 @@ export function UserAnalyzer(props: Props) {
   });
 
   useEffect(() => {
+    if (!isRunning) {
+      setProgress(0);
+    }
+  }, [isRunning]);
+
+  useEffect(() => {
     setLocalCache({
       followers: [],
       following: [],
@@ -35,7 +42,7 @@ export function UserAnalyzer(props: Props) {
 
   const startBot = () => {
     setIsRunning(true);
-    bot.startBot()
+    bot.startBot(setProgress)
       .then(({ followers, following, usernameToUser }) => {
         setLocalCache({
           followers,
@@ -67,7 +74,7 @@ export function UserAnalyzer(props: Props) {
       </Button>
 
       {
-        isRunning && <LinearProgress />
+        isRunning && <LinearProgress variant={'determinate'} value={progress * 100} />
       }
 
       <ResultsEdges

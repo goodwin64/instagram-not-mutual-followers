@@ -11,6 +11,7 @@ import { currentUserUsernameSelector } from '~src/selectors/currentUser';
 import { NoUserDetected } from '~src/components/NoUserDetected/NoUserDetected';
 import { UserAnalyzer } from '~src/components/UserAnalyzer/UserAnalyzer';
 import { collectUsernameToUserMap } from '~src/helpers/collectUsernameToUserMap';
+import { SetProgress } from '~src/interfaces/setProgress';
 
 export function usernameFromUserSelector(user: IUser) {
     return user.username;
@@ -18,8 +19,8 @@ export function usernameFromUserSelector(user: IUser) {
 
 export function createBot() {
     const api = {
-        startBot: () => {
-            return Promise.resolve(collectEdges())
+        startBot: (setProgress: SetProgress) => {
+            return Promise.resolve(collectEdges(setProgress))
                 .then(data => data || [])
                 .then(([followers, following]) => {
                     return {
