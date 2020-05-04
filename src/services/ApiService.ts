@@ -151,7 +151,11 @@ export function unfollowUser(id: string) {
 
 export function followUser(id: string) {
     const url = `https://www.instagram.com/web/friendships/${id}/follow/`;
+    const csrftoken = getCookie('csrftoken') || '';
     return fetch(url, {
         method: 'POST',
+        headers: {
+            'x-csrftoken': csrftoken,
+        },
     });
 }

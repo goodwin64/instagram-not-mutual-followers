@@ -1,25 +1,22 @@
 import { h } from 'preact';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import { ChangeEvent } from 'react';
 import { useState } from 'preact/hooks';
 import React from 'preact/compat';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import { getUsersOnlyIFollowThem, getUsersOnlyTheyFollowMe } from '~src/helpers/edgeHelpers';
-import { unfollowUser} from '~src/services/ApiService';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
-import { userIdFromEdgeSelector } from '~src/selectors/edgeSelectors';
+import { ResultUserRow, Props as ResultUserRowProps } from '~src/components/ResultUserRow/ResultUserRow';
+import { NotMutualFollower, NotMutualFollowing } from '~src/components/UserIcon/UserIcon';
 
 interface Props {
   followers: string[];
   following: string[];
   usernameToUser: Map<string, IEdgeNode>;
-  unfollowUser: (username: string) => void;
+  followUser: ResultUserRowProps['followUser'];
+  unfollowUser: ResultUserRowProps['unfollowUser'];
   currentUser: string;
 }
 
@@ -35,50 +32,40 @@ export function ResultsEdges(props: Props) {
 
   const edges = tab === 0 ? usersOnlyTheyFollowMe : usersOnlyIFollowThem;
 
-  const unfollow = (e: ChangeEvent<{}>) => {
-    // @ts-ignore
-    const username = e.currentTarget?.dataset?.username;
-    const id = userIdFromEdgeSelector(props.usernameToUser.get(username));
-    if (!id) {
-      return;
-    }
-    return unfollowUser(id)
-      .then(() => props.unfollowUser(username))
-      .catch(() => console.error(`can't unfollow user with id=${id}`));
-  };
-
   return (
     <div>
       <Tabs value={tab} onChange={handleChange} aria-label="not mutual followers tabs">
-        <Tab label="Only They Follow Me" id={'tab-1'} />
-        <Tab label="Only I Follow Them" id={'tab-2'} />
+        <Tab
+          label={
+            <div>
+              Only They Follow Me
+              <NotMutualFollower />
+            </div>
+          }
+          id={'tab-1'}
+        />
+        <Tab
+          label={
+            <div>
+              Only I Follow Them
+              <NotMutualFollowing/>
+            </div>
+          }
+          id={'tab-2'}
+        />
       </Tabs>
 
       <List>
         {
-          edges.map(userIFollowUsername => (
-            <ListItem key={userIFollowUsername}>
-              <Grid
-                container
-                justify={'space-between'}
-                direction={'row-reverse'}
-                alignItems={'center'}
-              >
-                {
-                  tab === 1 && (
-                    <Button
-                      variant={'outlined'}
-                      color={'secondary'}
-                      data-username={userIFollowUsername}
-                      onClick={unfollow}
-                    >
-                      Unfollow
-                    </Button>
-                  )
-                }
-                <ListItemText>{userIFollowUsername}</ListItemText>
-              </Grid>
-            </ListItem>
+          edges.map(username => (
+            <ResultUserRow
+              key={username}
+              username={username}
+              user={props.usernameToUser.get(username)}
+              followUser={props.followUser}
+              unfollowUser={props.unfollowUser}
+              type={tab === 0 ? 'follower' : 'following'}
+            />
           ))
         }
       </List>
