@@ -9,6 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import { getUsersOnlyIFollowThem, getUsersOnlyTheyFollowMe } from '~src/helpers/edgeHelpers';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { ResultUserRow, Props as ResultUserRowProps } from '~src/components/ResultUserRow/ResultUserRow';
+import { NotMutualFollower, NotMutualFollowing } from '~src/components/UserIcon/UserIcon';
 
 interface Props {
   followers: string[];
@@ -34,8 +35,24 @@ export function ResultsEdges(props: Props) {
   return (
     <div>
       <Tabs value={tab} onChange={handleChange} aria-label="not mutual followers tabs">
-        <Tab label="Only They Follow Me" id={'tab-1'} />
-        <Tab label="Only I Follow Them" id={'tab-2'} />
+        <Tab
+          label={
+            <div>
+              Only They Follow Me
+              <NotMutualFollower />
+            </div>
+          }
+          id={'tab-1'}
+        />
+        <Tab
+          label={
+            <div>
+              Only I Follow Them
+              <NotMutualFollowing/>
+            </div>
+          }
+          id={'tab-2'}
+        />
       </Tabs>
 
       <List>
