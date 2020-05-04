@@ -7,6 +7,7 @@ import { ResultsEdges } from '~src/components/ResultsEdges/ResultsEdges';
 import { useEffect, useState } from 'preact/hooks';
 import { bot } from '~src/components/MainDialog/MainDialog';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
+import { Props as ResultUserRowProps } from '~src/components/ResultUserRow/ResultUserRow';
 
 interface Props {
   username: string;
@@ -53,7 +54,14 @@ export function UserAnalyzer(props: Props) {
       });
   };
 
-  const unfollowUser = (username: string) => {
+  const followUser: ResultUserRowProps['followUser'] = (username) => {
+    setLocalCache((prevState) => ({
+      ...prevState,
+      following: prevState.following.concat(username),
+    }));
+  };
+
+  const unfollowUser: ResultUserRowProps['unfollowUser'] = (username) => {
     setLocalCache((prevState) => ({
       ...prevState,
       following: prevState.following.filter(edgeUsername => edgeUsername !== username),
@@ -81,6 +89,7 @@ export function UserAnalyzer(props: Props) {
         followers={localCache.followers}
         following={localCache.following}
         usernameToUser={localCache.usernameToUser}
+        followUser={followUser}
         unfollowUser={unfollowUser}
         currentUser={props.username}
       />
