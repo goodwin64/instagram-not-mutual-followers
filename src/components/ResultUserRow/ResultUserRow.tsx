@@ -1,5 +1,8 @@
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { h } from 'preact';
@@ -9,6 +12,7 @@ import { ChangeEvent } from 'react';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { userIdFromEdgeSelector } from '~src/selectors/edgeSelectors';
 import { followUser, unfollowUser } from '~src/services/ApiService';
+import { getUserUrl } from '~src/helpers/getUserUrl';
 
 export interface Props {
   user?: IEdgeNode;
@@ -94,6 +98,15 @@ export function ResultUserRow(props: Props) {
         >
           {props.username}
         </ListItemText>
+        <Box mr={2}>
+          <Link target={'_blank'} href={getUserUrl(props.username)}>
+            <Avatar
+              src={props.user.profile_pic_url}
+              alt={props.user.full_name}
+              title={props.user.full_name}
+            />
+          </Link>
+        </Box>
       </Grid>
     </ListItem>
   );
