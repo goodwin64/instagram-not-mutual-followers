@@ -88,16 +88,18 @@ export function ResultUserRow(props: Props) {
             </Button>
           )
         }
-        <ListItemText
-          style={{
-            maxWidth: '50%',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-          }}
-        >
-          {props.username}
-        </ListItemText>
+        <Link target={'_blank'} href={getUserUrl(props.username)}>
+          <ListItemText
+            style={{
+              maxWidth: '50%',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+            }}
+          >
+            {props.username}
+          </ListItemText>
+        </Link>
         <Box mr={2}>
           <Link target={'_blank'} href={getUserUrl(props.username)}>
             <Avatar
