@@ -3,8 +3,8 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { ChangeEvent } from 'react';
@@ -13,6 +13,7 @@ import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { userIdFromEdgeSelector } from '~src/selectors/edgeSelectors';
 import { followUser, unfollowUser } from '~src/services/ApiService';
 import { getUserUrl } from '~src/helpers/getUserUrl';
+import { useStyles } from '~src/components/ResultUserRow/ResultUserRow.styled';
 
 export interface Props {
   user?: IEdgeNode;
@@ -53,6 +54,8 @@ export function ResultUserRow(props: Props) {
       .catch(() => console.error(`can't unfollow user with id=${id}`));
   };
 
+  const classes = useStyles();
+
   if (!props.user) {
     return null;
   }
@@ -61,10 +64,30 @@ export function ResultUserRow(props: Props) {
     <ListItem>
       <Grid
         container
-        justify={'space-between'}
-        direction={'row-reverse'}
+        justify={'flex-start'}
+        direction={'row'}
         alignItems={'center'}
       >
+        <Box mr={2}>
+          <Link target={'_blank'} href={getUserUrl(props.username)}>
+            <Avatar
+              src={props.user.profile_pic_url}
+              alt={props.user.full_name}
+              title={props.user.full_name}
+            />
+          </Link>
+        </Box>
+        <Box width={200}>
+          <Link target={'_blank'} href={getUserUrl(props.username)}>
+            <Typography
+              className={classes.ListItemTextPrimary}
+              variant={'body1'}
+              title={props.username}
+            >
+              {props.username}
+            </Typography>
+          </Link>
+        </Box>
         {
           props.type === 'following' ? (
             <Button
@@ -88,27 +111,6 @@ export function ResultUserRow(props: Props) {
             </Button>
           )
         }
-        <Link target={'_blank'} href={getUserUrl(props.username)}>
-          <ListItemText
-            style={{
-              maxWidth: '50%',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-            }}
-          >
-            {props.username}
-          </ListItemText>
-        </Link>
-        <Box mr={2}>
-          <Link target={'_blank'} href={getUserUrl(props.username)}>
-            <Avatar
-              src={props.user.profile_pic_url}
-              alt={props.user.full_name}
-              title={props.user.full_name}
-            />
-          </Link>
-        </Box>
       </Grid>
     </ListItem>
   );
