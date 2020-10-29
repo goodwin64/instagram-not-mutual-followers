@@ -11,7 +11,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "analyze-bundle": "tsc -p tsconfig.webpack.json && webpack --config .userscripter-temp/webpack.config.js --profile --json > compilation-stats.json && npx webpack-bundle-analyzer compilation-stats.json",
+    "analyzer-build-profile": "tsc -p tsconfig.webpack.json && webpack --config .userscripter-temp/webpack.config.js --profile --json > compilation-stats.json",
+    "analyzer-show": "npx webpack-bundle-analyzer compilation-stats.json",
     "build-webpack-config": "tsc -p tsconfig.webpack.json",
     "build-userscript": "webpack --config .userscripter-temp/webpack.config.js",
     "build": "npm run build-webpack-config && npm run build-userscript && npm run clean",
