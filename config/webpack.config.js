@@ -413,6 +413,7 @@ module.exports = function (webpackEnv) {
                   shouldUseReactRefresh &&
                   require.resolve('react-refresh/babel'),
                 ].filter(Boolean),
+                presets: ['@babel/preset-react'],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
                 // directory for faster rebuilds.
