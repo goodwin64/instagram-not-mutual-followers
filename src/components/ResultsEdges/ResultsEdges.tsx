@@ -28,7 +28,7 @@ export function ResultsEdges(props: Props) {
   const usersOnlyIFollowThem = getUsersOnlyIFollowThem(props.followers, props.following);
 
   const [tab, setTab] = useState(0);
-  // actual for 500+ items in list; ideally, should be solved by virtualization
+  // actual for 300+ items in list; ideally, should be solved by virtualization
   const [isListShown, setIsListShown] = useState(false);
 
   const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
@@ -36,9 +36,12 @@ export function ResultsEdges(props: Props) {
   };
 
   const edges = tab === 0 ? usersOnlyTheyFollowMe : usersOnlyIFollowThem;
-  const isListTooBigForRendering = edges.length > 500;
+  const isListTooBigForRendering = edges.length > 300;
 
   useEffect(() => {
+    if (edges.length === 0) {
+      return;
+    }
     if (isListTooBigForRendering) {
       setIsListShown(false);
     } else {
