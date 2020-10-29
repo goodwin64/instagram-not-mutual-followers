@@ -36,9 +36,10 @@ export function ResultsEdges(props: Props) {
   };
 
   const edges = tab === 0 ? usersOnlyTheyFollowMe : usersOnlyIFollowThem;
+  const isListTooBigForRendering = edges.length > 500;
 
   useEffect(() => {
-    if (edges.length > 500) {
+    if (isListTooBigForRendering) {
       setIsListShown(false);
     } else {
       setIsListShown(true);
@@ -116,6 +117,7 @@ export function ResultsEdges(props: Props) {
                   followUser={props.followUser}
                   unfollowUser={props.unfollowUser}
                   type={tab === 0 ? 'follower' : 'following'}
+                  isSimpleRendering={isListTooBigForRendering}
                 />
               ))
             }

@@ -21,12 +21,14 @@ export interface Props {
   followUser: (username: string) => void;
   unfollowUser: (username: string) => void;
   type: 'follower' | 'following';
+  isSimpleRendering: boolean;
 }
 
 export function ResultUserRow(props: Props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const follow = (e: ChangeEvent<{}>) => {
+    e.preventDefault();
     // @ts-ignore
     const username = e.currentTarget?.dataset?.username;
     const id = userIdFromEdgeSelector(props.user);
@@ -60,6 +62,8 @@ export function ResultUserRow(props: Props) {
     return null;
   }
 
+  const ButtonComponent = props.isSimpleRendering ? 'button' : Button;
+
   return (
     <ListItem>
       <Grid
@@ -70,45 +74,59 @@ export function ResultUserRow(props: Props) {
       >
         <Box mr={2}>
           <Link target={'_blank'} href={getUserUrl(props.username)}>
-            <Avatar
-              src={props.user.profile_pic_url}
-              alt={props.user.full_name}
-              title={props.user.full_name}
-            />
+            {
+              props.isSimpleRendering
+                ? null
+                : (
+                  <Avatar
+                    src={props.user.profile_pic_url}
+                    alt={props.user.full_name}
+                    title={props.user.full_name}
+                  />
+                )
+            }
           </Link>
         </Box>
         <Box width={200}>
-          <Link target={'_blank'} href={getUserUrl(props.username)}>
-            <Typography
-              className={classes.ListItemTextPrimary}
-              variant={'body1'}
-              title={props.username}
-            >
-              {props.username}
-            </Typography>
-          </Link>
+          {
+            props.isSimpleRendering
+              ? <a target={'_blank'} href={getUserUrl(props.username)}>{props.username}</a>
+              : (
+                <Link target={'_blank'} href={getUserUrl(props.username)}>
+                  <Typography
+                    className={classes.ListItemTextPrimary}
+                    variant={'body1'}
+                    title={props.username}
+                  >
+                    {props.username}
+                  </Typography>
+                </Link>
+              )
+          }
         </Box>
         {
           props.type === 'following' ? (
-            <Button
+            <ButtonComponent
               variant={'outlined'}
               color={'secondary'}
               data-username={props.user?.username}
+              // @ts-ignore
               onClick={unfollow}
               disabled={isLoading}
             >
               Unfollow
-            </Button>
+            </ButtonComponent>
           ) : (
-            <Button
+            <ButtonComponent
               variant={'outlined'}
               color={'primary'}
               data-username={props.username}
+              // @ts-ignore
               onClick={follow}
               disabled={isLoading}
             >
               Follow back
-            </Button>
+            </ButtonComponent>
           )
         }
       </Grid>
