@@ -24,6 +24,10 @@ After successful installation you'll see the following in your browser top panel
 7. See the lists of users.  
 8. For instance, these users do not follow me, while I follow them (usually celebrities or people that use Instagram rarely or haven't noticed my following request):  
 ![step8](screenshots/step8.png)  
+9. You may find it useful to save the users list for future usage:  
+![step9-1](screenshots/step9-1.png)  
+![step9-2](screenshots/step9-2.png)  
+![step9-3](screenshots/step9-3.png)  
 
 *Beware* that this script works only in a web view, NOT within Android/iOS app.
 

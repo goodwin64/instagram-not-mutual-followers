@@ -1,15 +1,18 @@
 import { h } from 'preact';
 import List from '@material-ui/core/List';
 import { ChangeEvent } from 'react';
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import React from 'preact/compat';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 
 import { getUsersOnlyIFollowThem, getUsersOnlyTheyFollowMe } from '~src/helpers/edgeHelpers';
 import { IEdgeNode } from '~src/interfaces/edges-response/IEdgeNode';
 import { ResultUserRow, Props as ResultUserRowProps } from '~src/components/ResultUserRow/ResultUserRow';
 import { NotMutualFollower, NotMutualFollowing } from '~src/components/UserIcon/UserIcon';
+import { downloadFile } from '~src/helpers/downloadFile';
 
 interface Props {
   followers: string[];
@@ -25,12 +28,37 @@ export function ResultsEdges(props: Props) {
   const usersOnlyIFollowThem = getUsersOnlyIFollowThem(props.followers, props.following);
 
   const [tab, setTab] = useState(0);
+  // actual for 300+ items in list; ideally, should be solved by virtualization
+  const [isListShown, setIsListShown] = useState(false);
 
   const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
 
   const edges = tab === 0 ? usersOnlyTheyFollowMe : usersOnlyIFollowThem;
+  const isListTooBigForRendering = edges.length > 300;
+
+  useEffect(() => {
+    if (edges.length === 0) {
+      return;
+    }
+    if (isListTooBigForRendering) {
+      setIsListShown(false);
+    } else {
+      setIsListShown(true);
+    }
+  }, [props.followers, props.following]);
+
+  const handleDownload = () => {
+    const content = edges
+      .map(edge => `https://www.instagram.com/${edge}`)
+      .join('\n');
+    const fileName = tab === 0
+      ? 'Only They Follow Me'
+      : 'Only I Follow Them';
+    const fileDate = new Date().toLocaleString();
+    downloadFile(content, `${fileName} ${fileDate}.txt`);
+  };
 
   return (
     <div>
@@ -48,27 +76,57 @@ export function ResultsEdges(props: Props) {
           label={
             <div>
               Only I Follow Them
-              <NotMutualFollowing/>
+              <NotMutualFollowing />
             </div>
           }
           id={'tab-2'}
         />
       </Tabs>
 
-      <List>
-        {
-          edges.map(username => (
-            <ResultUserRow
-              key={username}
-              username={username}
-              user={props.usernameToUser.get(username)}
-              followUser={props.followUser}
-              unfollowUser={props.unfollowUser}
-              type={tab === 0 ? 'follower' : 'following'}
-            />
-          ))
-        }
-      </List>
+      {
+        edges.length > 0 && (
+          <Box mb={1}>
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              onClick={handleDownload}
+              fullWidth={false}
+            >
+              Download as .txt
+            </Button>
+
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              onClick={() => setIsListShown(!isListShown)}
+              fullWidth={false}
+            >
+              {isListShown ? 'Hide ' : 'Show '}
+              list
+            </Button>
+          </Box>
+        )
+      }
+
+      {
+        isListShown && (
+          <List>
+            {
+              edges.map(username => (
+                <ResultUserRow
+                  key={username}
+                  username={username}
+                  user={props.usernameToUser.get(username)}
+                  followUser={props.followUser}
+                  unfollowUser={props.unfollowUser}
+                  type={tab === 0 ? 'follower' : 'following'}
+                  isSimpleRendering={isListTooBigForRendering}
+                />
+              ))
+            }
+          </List>
+        )
+      }
     </div>
   );
 }
